@@ -1,0 +1,15 @@
+.counter {
+    width: 250px;
+}
+
+.buttons_wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.counter, .buttons_wrapper {
+    padding: 20px;
+    border: 1px solid #76d9fb;
+    border-radius: 10px;
+}

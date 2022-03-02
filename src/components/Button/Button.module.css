@@ -1,0 +1,14 @@
+.default_button {
+    background-color: #76d9fb;
+    border-radius: 6px;
+    padding: 3px 20px;
+    font-size: 26px;
+}
+
+.default_button:hover {
+    opacity: .7;
+}
+
+.default_button:disabled:hover {
+    opacity: 1;
+}

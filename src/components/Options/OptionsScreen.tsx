@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 // import s from './Screen.module.css'
 
 const OptionsScreen: React.FC = ({children}) => {
@@ -10,4 +10,4 @@ const OptionsScreen: React.FC = ({children}) => {
     )
 }
 
-export default OptionsScreen
+export default OptionsScreen;

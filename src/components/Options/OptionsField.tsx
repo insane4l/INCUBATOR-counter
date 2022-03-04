@@ -1,7 +1,7 @@
-import React from 'react'
-import s from './OptionsField.module.css'
+import React from 'react';
+import s from './OptionsField.module.css';
 
-const OptionsField: React.FC<OptionsFieldPropsType> = ({title, inputValue, onInputChange, validationError}) => {
+const OptionsField: React.FC<OptionsFieldPropsType> = ({title, inputValue, validationError, onInputChange}) => {
 
     const onInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         onInputChange(Number(e.currentTarget.value));

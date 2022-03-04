@@ -43,10 +43,6 @@
   color: red;
 }
 
-.counter {
-  width: 300px;
-}
-
 .buttons_wrapper {
   display: flex;
   justify-content: center;
@@ -54,8 +50,11 @@
   margin-top: 10px;
 }
 
-.counter, .buttons_wrapper {
+.counter, .options, .buttons_wrapper {
   padding: 20px;
   border: 1px solid #76d9fb;
   border-radius: 10px;
+}
+.counter, .options {
+  width: 300px;
 }

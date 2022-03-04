@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
-import Button from '../Button/Button'
-import CounterScreen from './CounterScreen'
-import s from './Counter.module.css'
-import { CounterOptionsType } from '../../App'
+import React from 'react';
+import Button from '../Button/Button';
+import CounterScreen from './CounterScreen';
+import { CounterOptionsType } from '../../App';
 
 const Counter: React.FC<CounterPropsType> = ({counterOptions, counterValue, setCounterValue, editMode, validatorError}) => {
 
@@ -10,12 +9,12 @@ const Counter: React.FC<CounterPropsType> = ({counterOptions, counterValue, setC
 
     const incCounter = () => {
         if (counterValue < maxValue) {
-            setCounterValue(counterValue + 1)
+            setCounterValue(counterValue + 1);
         }
     }
 
     const resetCounter = () => {
-        setCounterValue(startValue)
+        setCounterValue(startValue);
     }
 
     return (
@@ -30,7 +29,7 @@ const Counter: React.FC<CounterPropsType> = ({counterOptions, counterValue, setC
     )
 }
 
-export default Counter
+export default Counter;
 
 
 type CounterPropsType = {

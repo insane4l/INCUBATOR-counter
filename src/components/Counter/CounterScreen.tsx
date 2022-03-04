@@ -1,15 +1,16 @@
-import React from 'react'
-import s from './Screen.module.css'
+import React from 'react';
+import s from './Screen.module.css';
 
 const CounterScreen: React.FC<ScreenPropsType> = ({validatorError, counterValue, maxValue, editMode}) => {
 
-    const counterValueCN = (counterValue === maxValue) ? `counter_value counter_value_max` : 'counter_value'
+    const counterValueCN = (counterValue === maxValue) ? `counter_value counter_value_max` : 'counter_value';
+    const counterMessageEl = validatorError ? <span className="error_text">{validatorError}</span> : <span>Enter values and press "set"</span>;
 
     return (
         <div className="screen" >
 
             {editMode 
-                ? validatorError ? <span className="error_text">{validatorError}</span> : <span>Enter values and press "set"</span>
+                ? counterMessageEl
                 : <span className={counterValueCN}>{counterValue}</span>
             }
 
@@ -17,7 +18,7 @@ const CounterScreen: React.FC<ScreenPropsType> = ({validatorError, counterValue,
     )
 }
 
-export default CounterScreen
+export default CounterScreen;
 
 
 type ScreenPropsType = {

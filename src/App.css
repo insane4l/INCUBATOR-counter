@@ -3,8 +3,59 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 60px;
   width: 100vw;
   height: 100vh;
   background-color: #2b2c36;
 }
 
+
+.screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+  min-height: 125px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  text-align: center;
+  color: #444;
+  background-color: #76d9fb;
+  user-select: none;
+}
+
+.options_screen {
+  flex-direction: column;
+}
+
+.counter_value {
+  font-size: 55px;
+}
+
+.counter_value_max {
+  color: red;
+}
+
+.screen .error_text {
+  color: red;
+}
+
+.counter {
+  width: 300px;
+}
+
+.buttons_wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.counter, .buttons_wrapper {
+  padding: 20px;
+  border: 1px solid #76d9fb;
+  border-radius: 10px;
+}

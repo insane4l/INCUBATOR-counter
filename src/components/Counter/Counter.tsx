@@ -1,29 +1,30 @@
 import React, { useState } from 'react'
 import Button from '../Button/Button'
-import Screen from '../Screen/Screen'
+import CounterScreen from './CounterScreen'
 import s from './Counter.module.css'
+import { CounterOptionsType } from '../../App'
 
-const Counter: React.FC<CounterPropsType> = ({maxValue, startValue}) => {
+const Counter: React.FC<CounterPropsType> = ({counterOptions, counterValue, setCounterValue, editMode, validatorError}) => {
 
-    const [counter, setCounter] = useState(startValue)
+    const {maxValue, startValue} = counterOptions;
 
     const incCounter = () => {
-        if (counter < maxValue) {
-            setCounter(counter + 1)
+        if (counterValue < maxValue) {
+            setCounterValue(counterValue + 1)
         }
     }
 
     const resetCounter = () => {
-        setCounter(startValue)
+        setCounterValue(startValue)
     }
 
     return (
-        <div className={s.counter} >
-            <Screen counterValue={counter} maxValue={maxValue} />
+        <div className="counter" >
+            <CounterScreen counterValue={counterValue} maxValue={maxValue} validatorError={validatorError} editMode={editMode}/>
 
-            <div className={s.buttons_wrapper}>
-                <Button onClick={incCounter} disabled={counter === maxValue} title="inc" />
-                <Button onClick={resetCounter} disabled={counter === startValue} title="reset" />
+            <div className="buttons_wrapper">
+                <Button onClick={incCounter} disabled={editMode || counterValue === maxValue} title="inc" />
+                <Button onClick={resetCounter} disabled={editMode || counterValue === startValue} title="reset" />
             </div>
         </div>
     )
@@ -33,6 +34,9 @@ export default Counter
 
 
 type CounterPropsType = {
-    maxValue: number
-    startValue: number
+    counterOptions: CounterOptionsType
+    counterValue: number
+    validatorError: string
+    editMode: boolean
+    setCounterValue: (value: number) => void
 }

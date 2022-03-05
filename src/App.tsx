@@ -5,8 +5,10 @@ import Options from './components/Options/Options';
 
 function App() {
 
-	let savedOptions = localStorage.getItem('options');
-	let counterOptionsObj = savedOptions ? JSON.parse(savedOptions) : {startValue: 0, maxValue: 5};
+	// Side effect moved to useEffect
+	// let savedOptions = localStorage.getItem('options');
+	// let counterOptionsObj = savedOptions ? JSON.parse(savedOptions) : {startValue: 0, maxValue: 5};
+	let counterOptionsObj = {startValue: 0, maxValue: 5};
 
 	const [counterOptions, setCounterOptions] = useState<CounterOptionsType>(counterOptionsObj);
 	const [counterValue, setCounterValue] = useState(counterOptions.startValue);
@@ -14,6 +16,12 @@ function App() {
 	const [editMode, setEditMode] = useState(true);
 	const [validatorError, setValidatorError] = useState('');
 
+	useEffect(() => {
+		let savedOptions = localStorage.getItem('options');
+		if(savedOptions) {
+			setCounterOptions(JSON.parse(savedOptions))
+		}
+	}, [])
 
 	useEffect(() => {
 		localStorage.setItem('options', JSON.stringify(counterOptions));

@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import { CounterOptionsType } from '../../App';
 import Button from '../Button/Button';
 import OptionsField from './OptionsField';
@@ -9,6 +9,10 @@ const Options: React.FC<OptionsPropsType> = ({setEditMode, onNewOptionsConfirmed
     const [startValue, setStartValue] = useState(counterOptions.startValue);
 	const [maxValue, setMaxValue] = useState(counterOptions.maxValue);
 
+    useEffect(()=> {
+        setStartValue(counterOptions.startValue);
+        setMaxValue(counterOptions.maxValue);
+    }, [counterOptions])
 
     const confirmNewOptions = () => {
         if (editMode && !validatorError) {

@@ -1,48 +1,58 @@
-import React, {useEffect, useState } from 'react';
-import { CounterOptionsType } from '../../App';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { CounterOptionsType, setCounterOptions, setCounterValue, setOptionEditMode, setOptionValueError } from '../../redux/counterReducer';
+import { AppStateType } from '../../redux/store';
 import Button from '../Button/Button';
 import OptionsField from './OptionsField';
 import OptionsScreen from './OptionsScreen';
 
-const Options: React.FC<OptionsPropsType> = ({setEditMode, onNewOptionsConfirmed, editMode, validatorError, setValidatorError, counterOptions}) => {
+const Options: React.FC<OptionsPropsType> = ({editMode, validatorError}) => {
 
-    const [startValue, setStartValue] = useState(counterOptions.startValue);
-	const [maxValue, setMaxValue] = useState(counterOptions.maxValue);
+    const counterOptions = useSelector<AppStateType, CounterOptionsType>(state => state.counter.options);
+    const dispatch = useDispatch();
 
-    useEffect(()=> {
-        setStartValue(counterOptions.startValue);
-        setMaxValue(counterOptions.maxValue);
-    }, [counterOptions])
+    const [startFieldValue, setStartFieldValue] = useState(counterOptions.startValue);
+	const [maxFieldValue, setMaxFieldValue] = useState(counterOptions.maxValue);
+
 
     const confirmNewOptions = () => {
         if (editMode && !validatorError) {
-            const newOptions = {startValue, maxValue};
-		    onNewOptionsConfirmed(newOptions);
+
+            const newOptions = {
+                startValue: startFieldValue,
+                maxValue: maxFieldValue
+            };
+
+            dispatch( setCounterOptions(newOptions) );
+            dispatch( setCounterValue(startFieldValue) );
+            dispatch( setOptionEditMode(false) );
         }
 	}
 
+
+    const setValidatorError = (error: string) => {
+        dispatch( setOptionValueError(error) )
+    }
+
     const onStartValueChangeHandler = (value: number) => {
-        setStartValue(value);
-        setEditMode(true);
+        setStartFieldValue(value);
+        dispatch( setOptionEditMode(true) );
 
         if (value < 0) return setValidatorError("Incorrect value!");
-        if (value >= maxValue) return setValidatorError("The max value must be greater than the start value!");
+        if (value >= maxFieldValue) return setValidatorError("The max value must be greater than the start value!");
 
-        if (maxValue >= 0) setValidatorError('');
+        if (maxFieldValue >= 0) setValidatorError('');
     }
 
     const onMaxValueChangeHandler = (value: number) => {
-        setMaxValue(value);
-        setEditMode(true);
+        setMaxFieldValue(value);
+        dispatch( setOptionEditMode(true) );
 
         if (value < 0) return setValidatorError("Incorrect value!");
-        if (value <= startValue) return setValidatorError("The max value must be greater than the start value!");
+        if (value <= startFieldValue) return setValidatorError("The max value must be greater than the start value!");
 
-        if (startValue >= 0) setValidatorError('');
-
+        if (startFieldValue >= 0) setValidatorError('');
     }
-
-    const isValidatorError = validatorError ? true : false;
 
     return (
         <div className="options" >
@@ -50,20 +60,20 @@ const Options: React.FC<OptionsPropsType> = ({setEditMode, onNewOptionsConfirmed
 
                 <OptionsField 
                     title="start value" 
-                    inputValue={startValue}
+                    inputValue={startFieldValue}
                     onInputChange={onStartValueChangeHandler}
-                    validationError={startValue >= maxValue || startValue < 0} />
+                    validationError={startFieldValue >= maxFieldValue || startFieldValue < 0} />
                 <OptionsField 
                     title="max value"
-                    inputValue={maxValue}
+                    inputValue={maxFieldValue}
                     onInputChange={onMaxValueChangeHandler}
-                    validationError={startValue >= maxValue || maxValue < 0} />
-
+                    validationError={startFieldValue >= maxFieldValue || maxFieldValue < 0} />
+                    
             </OptionsScreen>
 
             <div className="buttons_wrapper">
                 <Button 
-                    disabled={isValidatorError || !editMode}
+                    disabled={!!validatorError || !editMode}
                     onClick={confirmNewOptions}
                     title="set" />
             </div>
@@ -77,8 +87,4 @@ export default Options;
 type OptionsPropsType = {
     editMode: boolean
     validatorError: string
-    counterOptions: CounterOptionsType
-    setValidatorError: (message: string) => void
-    setEditMode: (isEditMode: boolean) =>void
-    onNewOptionsConfirmed: (newOptions: CounterOptionsType) => void
 }

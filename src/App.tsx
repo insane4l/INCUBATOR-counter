@@ -1,64 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import './App.css';
 import Counter from './components/Counter/Counter';
 import Options from './components/Options/Options';
+import { AppStateType } from './redux/store';
 
 function App() {
 
-	// Side effect moved to useEffect
-	// let savedOptions = localStorage.getItem('options');
-	// let counterOptionsObj = savedOptions ? JSON.parse(savedOptions) : {startValue: 0, maxValue: 5};
-	let counterOptionsObj = {startValue: 0, maxValue: 5};
-
-	const [counterOptions, setCounterOptions] = useState<CounterOptionsType>(counterOptionsObj);
-	const [counterValue, setCounterValue] = useState(counterOptions.startValue);
-
-	const [editMode, setEditMode] = useState(true);
-	const [validatorError, setValidatorError] = useState('');
-
-	useEffect(() => {
-		let savedOptions = localStorage.getItem('options');
-		if(savedOptions) {
-			setCounterOptions(JSON.parse(savedOptions))
-		}
-	}, [])
-
-	useEffect(() => {
-		localStorage.setItem('options', JSON.stringify(counterOptions));
-	}, [counterOptions]);
-
-	const onNewOptionsConfirmed = (newOptions: CounterOptionsType) => {
-		setCounterOptions(newOptions);
-		setCounterValue(newOptions.startValue);
-		setEditMode(false);
-
-		// localStorage.setItem('options', JSON.stringify(newOptions))
-	}
+	const optionsValueError = useSelector<AppStateType, string>(state => state.counter.optionValueError);
+	const optionEditMode = useSelector<AppStateType, boolean>(state => state.counter.optionEditMode);
 
 	return (
 		<div className="App">
 			<Options 
-				onNewOptionsConfirmed={onNewOptionsConfirmed}
-				editMode={editMode} 
-				setEditMode={setEditMode} 
-				validatorError={validatorError} 
-				setValidatorError={setValidatorError} 
-				counterOptions={counterOptions}/>
+				editMode={optionEditMode} 
+				validatorError={optionsValueError} />
 				
 			<Counter 
-				counterOptions={counterOptions}
-				counterValue={counterValue}
-				setCounterValue={setCounterValue}
-				validatorError={validatorError}
-				editMode={editMode}/>
+				editMode={optionEditMode}
+				validatorError={optionsValueError} />
 		</div>
 	);
 }
 
 export default App;
-
-
-export type CounterOptionsType = {
-	startValue: number
-	maxValue: number
-}

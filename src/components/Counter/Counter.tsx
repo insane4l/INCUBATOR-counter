@@ -1,29 +1,45 @@
 import React from 'react';
 import Button from '../Button/Button';
 import CounterScreen from './CounterScreen';
-import { CounterOptionsType } from '../../App';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppStateType } from '../../redux/store';
+import { CounterOptionsType, setCounterValue } from '../../redux/counterReducer';
 
-const Counter: React.FC<CounterPropsType> = ({counterOptions, counterValue, setCounterValue, editMode, validatorError}) => {
+const Counter: React.FC<CounterPropsType> = ({editMode, validatorError}) => {
 
-    const {maxValue, startValue} = counterOptions;
+    const counterValue = useSelector<AppStateType, number>(state => state.counter.counterValue);
+    const {startValue, maxValue} = useSelector<AppStateType, CounterOptionsType>(state => state.counter.options);
 
+    const dispatch = useDispatch();
+    
     const incCounter = () => {
         if (counterValue < maxValue) {
-            setCounterValue(counterValue + 1);
+            dispatch( setCounterValue(counterValue + 1) );
         }
     }
 
     const resetCounter = () => {
-        setCounterValue(startValue);
+        dispatch( setCounterValue(startValue) )
     }
 
     return (
         <div className="counter" >
-            <CounterScreen counterValue={counterValue} maxValue={maxValue} validatorError={validatorError} editMode={editMode}/>
+            <CounterScreen 
+                counterValue={counterValue}
+                maxValue={maxValue}
+                validatorError={validatorError}
+                editMode={editMode} />
 
             <div className="buttons_wrapper">
-                <Button onClick={incCounter} disabled={editMode || counterValue === maxValue} title="inc" />
-                <Button onClick={resetCounter} disabled={editMode || counterValue === startValue} title="reset" />
+                <Button 
+                    onClick={incCounter}
+                    disabled={editMode || counterValue === maxValue}
+                    title="inc" />
+
+                <Button
+                    onClick={resetCounter}
+                    disabled={editMode || counterValue === startValue}
+                    title="reset" />
             </div>
         </div>
     )
@@ -33,9 +49,6 @@ export default Counter;
 
 
 type CounterPropsType = {
-    counterOptions: CounterOptionsType
-    counterValue: number
     validatorError: string
     editMode: boolean
-    setCounterValue: (value: number) => void
 }
